@@ -40,3 +40,28 @@ echo "==> Patching LXC config for Fedora (disabling AppArmor)..."
 if [ -f "/var/lib/waydroid/lxc/waydroid/config" ]; then
     sudo sed -i "s/^lxc.apparmor.profile/#lxc.apparmor.profile/" /var/lib/waydroid/lxc/waydroid/config
 fi
+
+echo "==> Debloating Waydroid AOSP & Google bloatware..."
+if waydroid status | grep -q "RUNNING"; then
+    # AOSP Apps
+    sudo waydroid shell -- pm disable-user --user 0 org.lineageos.jelly
+    sudo waydroid shell -- pm disable-user --user 0 org.lineageos.aperture
+    sudo waydroid shell -- pm disable-user --user 0 org.lineageos.eleven
+    sudo waydroid shell -- pm disable-user --user 0 org.lineageos.etar
+    sudo waydroid shell -- pm disable-user --user 0 org.lineageos.recorder
+    sudo waydroid shell -- pm disable-user --user 0 org.lineageos.waydroidupdater
+    sudo waydroid shell -- pm disable-user --user 0 com.android.gallery3d
+    sudo waydroid shell -- pm disable-user --user 0 com.android.calculator2
+    sudo waydroid shell -- pm disable-user --user 0 com.android.deskclock
+    sudo waydroid shell -- pm disable-user --user 0 com.android.contacts
+    sudo waydroid shell -- pm disable-user --user 0 com.android.bips
+    sudo waydroid shell -- pm disable-user --user 0 com.android.printspooler
+    sudo waydroid shell -- pm disable-user --user 0 com.android.egg
+
+    # Google Bloat
+    sudo waydroid shell -- pm disable-user --user 0 com.google.android.projection.gearhead
+    sudo waydroid shell -- pm disable-user --user 0 com.google.android.feedback
+    sudo waydroid shell -- pm disable-user --user 0 com.google.android.googlequicksearchbox
+else
+    echo "NOTICE: Waydroid session is not running. Start Waydroid and run debloat manually."
+fi
