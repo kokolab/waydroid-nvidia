@@ -35,3 +35,8 @@ ro.surfaceflinger.has_wide_color_display=false
 ro.surfaceflinger.has_HDR_display=false
 PROP"
 fi
+
+echo "==> Patching LXC config for Fedora (disabling AppArmor)..."
+if [ -f "/var/lib/waydroid/lxc/waydroid/config" ]; then
+    sudo sed -i "s/^lxc.apparmor.profile/#lxc.apparmor.profile/" /var/lib/waydroid/lxc/waydroid/config
+fi
